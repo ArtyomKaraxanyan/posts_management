@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <%- include('../head')%>
+</head>
+<body>
+<div class="fcf-body">
+
+    <div id="fcf-form">
+    <h3 class="fcf-h3">Update post</h3>
+ 
+    <% if(user_post) { %>
+    <% user_post.forEach(function(post) { %>
+    <form id="fcf-form-id" class="fcf-form-class"  action="/update/post/<%= post.id %>"  method="post"  enctype="multipart/form-data">
+        <div class="fcf-form-group">
+            <label for="Image" class="fcf-label">Imgage</label>
+            <div class="fcf-input-group">
+                <input type="file" id="image" name="image" class="fcf-form-control"> 
+                <input type="hidden" name="image_name" value="<%= post.image %>">
+            </div>
+        </div>
+   
+        <div class="fcf-form-group">
+            <label for="Title" class="fcf-label">Title</label>
+            <div class="fcf-input-group">
+                <input type="text" id="Title" name="title" class="fcf-form-control" value="<%= post.title %>">
+            </div>
+        </div>
+        <div class="fcf-form-group">
+            <label for="Description" class="fcf-label">Description</label>
+            <div class="fcf-input-group">
+                <textarea id="Description" name="description" class="fcf-form-control" rows="6" maxlength="3000" ><%= post.text %></textarea>
+            </div>
+        </div>
+        <div class="fcf-form-group">
+            <label for="location" class="fcf-label">Location</label>
+            <div class="fcf-input-group">
+       <input type="hidden" name="place" id="place" value="<%= post.place %>">
+       <input type="hidden" name="lat" id="lat" value="<%= post.lat %>"> 
+       <input type="hidden" name="lng" id="lng" value="<%= post.lng %>"> 
+
+                <input id="location" name="address" class="fcf-form-control" placeholder="Enter your address here" value="<%= post.address %>">
+            </div>
+        </div>
+     
+        <% if (validationMessige && Array.isArray(validationMessige)) { %>
+            <ul>
+              <% validationMessige.forEach(function(validation) { %>
+                <li style="color: red;"><%= validation.message %></li>
+              <% }); %>
+            </ul>
+          <% } %>
+
+        <div class="fcf-form-group">
+            <button type="submit" id="fcf-button" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block">Update Post</button>
+        </div>
+    </form>
+    <% }); %>
+    <% }; %>
+
+    </div>
+
+</div>
+
+</body>
+</html>

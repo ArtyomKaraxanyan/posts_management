@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <%- include('../head')%>
+<body>
+<div class="body">
+<div class="grid-container">
+  
+</div>
+<% if (posts!= null && posts.length>0) { %>
+<div class="grid-container">
+<div class="item1"><h4> Posts</h4></div>
+
+
+<div class="item2">
+     <input type="text" id="search_input" class="search_input" placeholder="Search"  > 
+     </div>
+<div class="item3">
+    
+    <select name="address" id="address" class="select_address " >
+        <option value="all" selected>all</option>
+<optgroup label="Address">
+    <% search_address.forEach(function(address) { %>
+    <option value="<%= address.address %>" >
+        <%= address.address %>
+    </option>
+    <% }); %>
+</optgroup>
+<optgroup label="Places">
+    <% search_address.forEach(function(place) { %>
+    <option value="<%= place.place %>">
+        <%= place.place %>
+    </option>
+    <% }); %>
+</optgroup>
+</select>  
+
+</div>
+</div>
+<div class="post_content">
+<div class="cards">
+<% posts.forEach(function(post) { %>
+  <div class="card">
+    <h4><%= post.title %></h4>
+    <img src="/post_images/<%= post.image %>"+ alt="">
+  <p style="font-size:18px;"><%= post.text %></p><br>
+  <h5 style="font-size:18px;"><%= post.address %></h5>
+  <span style="font-size:18px;">Creted at  <%= new Date(post.updated_at).toLocaleString('en-US', { timeZone: 'UTC' }) %></span>
+  <div>
+  </div>
+
+</div>
+
+
+  <% }); %>
+</div>
+<% } else { %>
+    <div>
+        No Posts
+    </div>
+<% } %>
+</div>
+</body>
+</html>
+<script>
+
+$('#address').select2();
+
+$(document).ready(function(){
+    $('#address').change(function(){ 
+    var address = $(this).val();
+    var search_input = $('#search_input').val();
+    if(search_input==''){
+      search_input='all';
+    }
+  
+  $.ajax({
+        url: "/posts/"+address+"/"+search_input, 
+        type: 'GET',
+        success: function(result){
+        $(".post_content").html(result);
+  }});
+    
+});
+
+$( "#search_input" ).on( "keyup", function() {
+  var search_input = $(this).val();
+  var address = $('#address').find(":selected").text()
+
+  if(search_input==''){
+      search_input='all';
+    }
+  $.ajax({
+        url: "/posts/"+address+"/"+search_input, 
+        type: 'GET',
+        success: function(result){
+        $(".post_content").html(result);
+  }});
+
+} );
+
+})
+
+
+</script>

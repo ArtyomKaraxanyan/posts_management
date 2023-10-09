@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" >
+<%- include('head')%>
+<body>
+<div class="body">
+<div class="grid-container">
+  
+  <% if (!user) { %>
+  <div class="item1"> <h1 >My First Node Project</h1></div>
+  </div>
+  </div>
+  <% } else { %>
+    
+  <div class="item1"> <h1 >Welcome <%= user.first_name %></h1></div>
+
+<div class="item2">  <form class="page_action" action="/add/post" method="get">
+  <button type="submit">Add Post</button>
+ </form></div>
+
+ <div class="item3">  <form class="page_action" action= "/edit/<%= user.id %>" method="get">
+  <button type="submit">Edit Profile</button>
+ </form></div>
+  <% } %>
+</div>
+<% if ( posts!= null && posts.length>0) { %>
+<div class="grid-container">
+<div class="item1"><h4>My Posts</h4></div>
+</div>
+<div class="cards">
+<% posts.forEach(function(post) { %>
+  <div class="card">
+    <h4><%= post.title %></h4>
+    <img src="/post_images/<%= post.image %>"+ alt="">
+  <p style="font-size:18px;"><%= post.text %></p><br>
+  <h5 style="font-size:18px;"><%= post.address %></h5>
+  <span style="font-size:18px;">Creted at  <%= new Date(post.updated_at).toLocaleString('en-US', { timeZone: 'UTC' }) %></span>
+  <div>
+    <form action="get" id="edit_post"> </form>
+<form  method="post" id="delete_post"></form>
+    <button class="delete_button" onClick = "delete_post('<%= post.id %>')">Delete</button>
+
+    <button class="edit_button"  onClick="edit_post('<%= post.id %>', '<%= user.id %>')">Edit</button>
+
+  </div>
+
+</div>
+
+
+  <% }); %>
+</div>
+
+<% } %>
+</body>
+</html>
+<script>
+function delete_post(postId){
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Once deleted, you will not be able to recover this item!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.getElementById('delete_post').action = "/delete/post/" + postId;
+      // Submit the form
+     document.getElementById('delete_post').submit();
+      
+
+      Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire('Cancelled', 'Your item is safe :)', 'error');
+    }
+  });
+}
+function edit_post(postId,userId){
+console.log(userId);
+      document.getElementById('edit_post').action = "/edit/post/"+userId+'/' + postId;
+      // Submit the form
+     document.getElementById('edit_post').submit();
+    
+}
+
+</script>

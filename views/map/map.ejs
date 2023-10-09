@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <%- include('../head')%>
+<body>
+<div class="body">
+<div class="grid-container">
+  
+  <div class="item1"> <h1 >Map Page</h1></div>
+  </div>
+  </div>
+  <% if (address) { %>
+    <input type="hidden" id="latlng" name="latlng" value="<%= JSON.stringify(address) %>">
+  <% } %>
+  <div id="map"></div>
+</div>
+
+</body>
+</html>
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key={{YOUR_KEY}}&callback=initMap&v=weekly"
+defer
+></script>
+
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+<script>
+    
+    let map;
+
+function initMap() {
+    
+ const map = new google.maps.Map(document.getElementById("map"), {
+   zoom: 3,
+   center: { lat: 50.830228, lng: 68.137554 },
+ });
+
+ const infoWindow = new google.maps.InfoWindow({
+   content: "",
+   disableAutoPan: true,
+ });
+ 
+ 
+ const latLngInput = document.getElementById("latlng");
+const latLngValue = latLngInput.value;
+const postPosition = JSON.parse(latLngValue);
+
+const locations = [];
+const labels = [];
+postPosition.forEach(element => {
+ locations.push({ lat: element.lat, lng: element.lng });
+ labels.push({ place: element.place });
+});
+var image = 'img/icons/marker.svg';
+ const markers = locations.map((position, i) => {
+   const label = labels[i].place;
+   const marker = new google.maps.Marker({
+     position,
+     label: {
+      text: label.charAt(0),
+      color: "#4682B4",
+      fontSize: "15px",
+      fontWeight: "bold"
+    },
+   });
+
+  
+   marker.addListener("click", () => {
+     infoWindow.setContent(label);
+     infoWindow.open(map, marker);
+   });
+   return marker;
+ });
+
+
+ const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
+
+
+
+
+}
+
+
+window.initMap = initMap;
+
+
+</script>

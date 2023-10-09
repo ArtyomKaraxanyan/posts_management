@@ -1,0 +1,21 @@
+
+<% if (posts!= null && posts.length>0) { %>
+    <div class="cards">
+    <% posts.forEach(function(post) { %>
+      <div class="card">
+        <h4><%= post.title %></h4>
+        <img src="/post_images/<%= post.image %>"+ alt="">
+      <p style="font-size:18px;"><%= post.text %></p><br>
+      <h5 style="font-size:18px;"><%= post.address %></h5>
+      <span style="font-size:18px;">Creted at  <%= new Date(post.updated_at).toLocaleString('en-US', { timeZone: 'UTC' }) %></span>
+      <div>
+      </div>
+    </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+        <div>
+            No Posts
+        </div>
+    <% } %>
+    

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" >
+<%- include('../head')%>
+<body>
+<div class="body">
+<div class="grid-container">
+  
+  <% if (!user) { %>
+  <div class="item1"> <h1 >Erorr</h1></div>
+  </div>
+  </div>
+  <% } else { %>
+  <div class="item1"> <h1 >Edit your profile <%= user.first_name %></h1></div>
+  <div class="item4">
+  <div class="edit-form">
+  <form action="/update/<%= user.id %>" method="post">
+    <h1>Update</h1>
+    <div class="content">
+      <div class="input-field">
+        <input type="text"  placeholder="First Name" autocomplete="nope" name="first_name" value="<%= user.first_name %>" >
+      </div>
+      <div class="input-field">
+        <input type="text" placeholder="Last Name" autocomplete="nope" name="last_name" value="<%= user.last_name %>">
+      </div>
+      <div class="input-field">
+        <input type="email" placeholder="Email" autocomplete="nope" name="email" value="<%= user.email %>">
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password" autocomplete="new-password" name="password">
+      </div>
+      <% if (validationMessige && Array.isArray(validationMessige)) { %>
+        <ul>
+          <% validationMessige.forEach(function(validation) { %>
+            <li style="color: red;"><%= validation.message %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+      <div class="action">
+        <div></div>
+        <button type="submit">Update</button>
+      </div>
+      
+      
+    </div>
+  
+  </form>
+</div>
+</div>
+  <% } %>
+</div>
+
+</body>
+</html>

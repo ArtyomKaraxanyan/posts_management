@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+    <%- include('head')%>
+</head>
+<body>
+<div class="fcf-body">
+
+    <div id="fcf-form">
+    <h3 class="fcf-h3">Contact us</h3>
+
+    <form id="fcf-form-id" class="fcf-form-class" method="post" action="/contact/send">
+        
+        <div class="fcf-form-group">
+            <label for="Name" class="fcf-label">Subject</label>
+            <div class="fcf-input-group">
+                <input type="text" id="subject" name="subject" class="fcf-form-control" >
+            </div>
+        </div>
+
+        <div class="fcf-form-group">
+            <label for="Email" class="fcf-label">Your email address</label>
+            <div class="fcf-input-group">
+                <input type="email" id="Email" name="email" class="fcf-form-control" >
+            </div>
+        </div>
+
+        <div class="fcf-form-group">
+            <label for="Message" class="fcf-label">Your message</label>
+            <div class="fcf-input-group">
+                <textarea id="message" name="message" class="fcf-form-control" rows="6" maxlength="3000" ></textarea>
+            </div>
+        </div>
+        <% if (validationMessige && Array.isArray(validationMessige)) { %>
+            <ul>
+              <% validationMessige.forEach(function(validation) { %>
+                <li style="color: red;"><%= validation.message %></li>
+              <% }); %>
+            </ul>
+          <% } %>
+
+        <div class="fcf-form-group">
+            <button type="submit" id="fcf-button" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block">Send Message</button>
+        </div>
+
+
+    </form>
+    </div>
+
+</div>
+
+</body>
+</html>
