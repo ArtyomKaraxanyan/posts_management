@@ -4,5 +4,5 @@
 
 #### 1. npm update 
 #### 2. in connect_mysql.js connect your database 
-#### 3. go to migrations folder and install migrations 
+#### 3. go to migrations folder and run migration file
 #### 4. add your google map key on head.ejs folder and on map.ejs files
